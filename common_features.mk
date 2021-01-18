@@ -502,6 +502,13 @@ ifeq ($(strip $(OLED_DRIVER_ENABLE)), yes)
     SRC += oled_driver.c
 endif
 
+ifeq ($(strip $(MULTI_OLED_DRIVER_ENABLE)), yes)
+    OPT_DEFS += -DMULTI_OLED_DRIVER_ENABLE
+    COMMON_VPATH += $(DRIVER_PATH)/oled
+    QUANTUM_LIB_SRC += i2c_master.c
+    SRC += multi_oled_driver.c
+endif
+
 include $(DRIVER_PATH)/qwiic/qwiic.mk
 
 ifeq ($(strip $(UCIS_ENABLE)), yes)

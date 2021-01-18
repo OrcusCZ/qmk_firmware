@@ -66,3 +66,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //     }
 //     return true;
 // }
+
+#ifdef MULTI_OLED_DRIVER_ENABLE
+void oled_task_user(int id) {
+    if (id == 0) {
+        oled_write_P(PSTR("test LEFT"), false, id);
+    }
+    else {
+        oled_write_P(PSTR("test RIGHT"), false, id);
+    }
+    oled_scroll_left(id);
+}
+#endif

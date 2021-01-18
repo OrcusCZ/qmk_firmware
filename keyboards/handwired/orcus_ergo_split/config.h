@@ -52,6 +52,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 //#define SOFT_SERIAL_PIN D0  // or D1, D2, D3, E6
 #define USE_I2C
+#define SLAVE_I2C_ADDRESS 0x32
 #define SPLIT_HAND_PIN D4
 
 //#define LED_NUM_LOCK_PIN B0
@@ -152,3 +153,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* Bootmagic Lite key configuration */
 //#define BOOTMAGIC_LITE_ROW 0
 //#define BOOTMAGIC_LITE_COLUMN 0
+
+/* OLED configuration */
+#define OLED_NUM_DISPLAYS 2
+#define OLED_DISPLAY_ADDRESSES  { 0x3C, 0x3F }

@@ -86,6 +86,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef OLED_DRIVER_ENABLE
 #    include "oled_driver.h"
 #endif
+#ifdef MULTI_OLED_DRIVER_ENABLE
+#    include "multi_oled_driver.h"
+#endif
 #ifdef VELOCIKEY_ENABLE
 #    include "velocikey.h"
 #endif
@@ -265,6 +268,12 @@ void keyboard_init(void) {
 #ifdef OLED_DRIVER_ENABLE
     oled_init(OLED_ROTATION_0);
 #endif
+#ifdef MULTI_OLED_DRIVER_ENABLE
+    if (is_keyboard_master()) {
+        for (uint8_t i = 0; i < OLED_NUM_DISPLAYS; i++)
+            oled_init(OLED_ROTATION_0, i);
+    }
+#endif
 #ifdef PS2_MOUSE_ENABLE
     ps2_mouse_init();
 #endif
@@ -336,7 +345,7 @@ void keyboard_task(void) {
     housekeeping_task_kb();
     housekeeping_task_user();
 
-#if defined(OLED_DRIVER_ENABLE) && !defined(OLED_DISABLE_TIMEOUT)
+#if (defined(OLED_DRIVER_ENABLE) || defined(MULTI_OLED_DRIVER_ENABLE)) && !defined(OLED_DISABLE_TIMEOUT)
     uint8_t ret = matrix_scan();
 #else
     matrix_scan();
@@ -409,6 +418,18 @@ MATRIX_LOOP_END:
     // Wake up oled if user is using those fabulous keys!
     if (ret) oled_on();
 #    endif
+#endif
+
+#ifdef MULTI_OLED_DRIVER_ENABLE
+    if (is_keyboard_master()) {
+        for (uint8_t i = 0; i < OLED_NUM_DISPLAYS; i++) {
+            oled_task(i);
+#          ifndef OLED_DISABLE_TIMEOUT
+            // Wake up oled if user is using those fabulous keys!
+            if (ret) oled_on(i);
+#          endif
+        }
+    }
 #endif
 
 #ifdef MOUSEKEY_ENABLE
