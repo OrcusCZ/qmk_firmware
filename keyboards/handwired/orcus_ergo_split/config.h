@@ -154,6 +154,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define BOOTMAGIC_LITE_ROW 0
 //#define BOOTMAGIC_LITE_COLUMN 0
 
+/* Encoder configuration */
+#define ENCODERS_PAD_A { D7 }
+#define ENCODERS_PAD_B { E6 }
+
 /* OLED configuration */
 #define OLED_NUM_DISPLAYS 2
 #define OLED_DISPLAY_ADDRESSES  { 0x3C, 0x3F }
